@@ -1,8 +1,7 @@
 import turtle as t
 screen = t.Screen()
 t.penup()
-t.forward(1)
-#t.ht()
+t.ht()
 t.speed('fastest')
 global cur
 cur = None
@@ -104,7 +103,7 @@ class Element:
       raise TypeError("content must be a string")
     self.content = str(contentgiven)
 
-  def render(self):
+  def renderold(self):
     if(self.rendered == False):
       self.rendered = True
       t.setx(self.x)
@@ -119,6 +118,10 @@ class Element:
         t.forward(self.height)
         t.left(90)
       t.end_fill()
+      t.penup()
+  
+  def finish(self):
+    t.done()
 
 
 
@@ -190,6 +193,7 @@ callbackRef = {
 #    callbackRef[prop]()
     
 def click(x,y):
+  print(x,y)
   for _,button in enumerate(buttons):
       if(x in range(button[0][0],button[1][0]) and y in range(button[0][1],button[1][1])):
           print("Hello World!")
@@ -197,4 +201,6 @@ def click(x,y):
     
 t.onscreenclick(click)
 
-t.done()
+def pause():
+  if True:
+    t.ontimer(pause,250)
