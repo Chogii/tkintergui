@@ -202,8 +202,8 @@ class Element:
   #      t.left(90)
   #    t.end_fill()
   #    t.penup()
-  
-  def finish(self):
+
+def finish():
     t.done()
     
 def click(data):

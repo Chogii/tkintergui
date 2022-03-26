@@ -39,5 +39,4 @@ testElement2.setfontfamily("Segoe UI")
 testElement2.onclick(test2)
 testElement2.render()
 
-testElement.render()
-testElement.finish()
+turtlegui.finish()
