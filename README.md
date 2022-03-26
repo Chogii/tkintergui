@@ -140,7 +140,7 @@ testElement.setfontfamily('Sans Serif')
 Set the font size of the element's content
 
 ```py
-testElement.setfontfamily(16)
+testElement.setfontsize(16)
 ```
 
 **render()**
