@@ -1,34 +1,22 @@
+from tkinter.tix import Tk
 import turtle as t
+import tkinter as tk
+win = Tk()
+win.withdraw()
+scxscale = 0.6
+scyscale = 0.6
 screen = t.Screen()
+screen.setup(scxscale,scyscale)
 t.penup()
 t.ht()
 t.speed('fastest')
 global cur
 cur = None
-global buttons
-buttons = []
+global elements
+elements = []
 
-defaults = {
-    'fontsize':16,
-    'fontfamily':'Arial Bold',
-    'fonttype':'normal',
-    'textcolor':'#000000'
-}
-
-elements = [
-  {
-    'class': 'button',
-    'color':"#32a852",
-    'x':0,
-    'y':0,
-    'width':200,
-    'height':50,
-    'content':'Click Here',
-    'textcolor':'#FFFFFF',
-    'fontsize':28,
-    'fontfamily':'Sans Serif'
-  }  
-]
+def placeholder():
+  None
 
 def valColor(color):
   if(len(color) == 6):
@@ -41,9 +29,24 @@ def valColor(color):
     return 1
 
 class Element:
+  def render(self):
+    self.turtle.pu()
+    self.turtle.turtlesize(self.width / 20.2, self.height / 20.2, 0)
+    self.turtle.goto((win.winfo_screenwidth() * scxscale / 2 * -1) + self.x + self.width - (self.width / 2 - 2), (win.winfo_screenheight() * scyscale / 2) - self.y - self.height + (self.height / 2 - 2))
+    t.color("#" + self.textcolor)
+    t.goto((win.winfo_screenwidth() * scxscale / 2 * -1) + self.x + self.width - (self.width / 2 - 2), (win.winfo_screenheight() * scyscale / 2) - self.y - self.height + (self.height / 2 - 2) - self.fontsize * 0.8)
+    t.write(self.content,True,"Center",[self.fontfamily,self.fontsize,self.fonttype])
+  
   def __init__(self):
+    self.turtle = t.Turtle()
+    self.turtle.speed('fastest')
+    self.turtle.seth(270)
+    self.turtle.shape("square")
+    self.turtle.pu()
+
     self.x = 0
     self.y = 0
+    self.onclickfunc = placeholder
     self.width = 0
     self.height = 0
     self.color = "000000"
@@ -53,8 +56,7 @@ class Element:
     self.fonttype = 'normal'
     self.content = ''
 
-    self.rendered = False
-    print("Hello World!")
+    elements.append(self)
 
   def setx(self,xgiven):
     if not isinstance(xgiven,int):
@@ -81,6 +83,7 @@ class Element:
       raise TypeError("color must be a string in hexadecimal color code")
     if(valColor(colorgiven) != 1):
       self.color = colorgiven
+      self.turtle.color("#" + colorgiven)
 
   def settextcolor(self,colorgiven):
     if not isinstance(colorgiven,str):
@@ -103,103 +106,41 @@ class Element:
       raise TypeError("content must be a string")
     self.content = str(contentgiven)
 
-  def renderold(self):
-    if(self.rendered == False):
-      self.rendered = True
-      t.setx(self.x)
-      t.sety(self.y)
-      t.color("#" + self.color)
-      t.seth(0)
-      t.pendown()
-      t.begin_fill()
-      for i in range(2):
-        t.forward(self.width)
-        t.left(90)
-        t.forward(self.height)
-        t.left(90)
-      t.end_fill()
-      t.penup()
+  def onclick(self,func):
+    if(callable(func)):
+      self.onclick = func
+    else:
+      raise TypeError("argument must be a function")
+
+  #def renderold(self):
+  #  if(self.rendered == False):
+  #    self.rendered = True
+  #    t.setx(self.x)
+  #    t.sety(self.y)
+  #    t.color("#" + self.color)
+  #    t.seth(0)
+  #    t.pendown()
+  #    t.begin_fill()
+  #    for i in range(2):
+  #      t.forward(self.width)
+  #      t.left(90)
+  #      t.forward(self.height)
+  #      t.left(90)
+  #    t.end_fill()
+  #    t.penup()
   
   def finish(self):
     t.done()
-
-
-
-def ignore():
-  None
-
-def adjustPos():
-  t.setx(cur['x'])
-  t.sety(cur['y'])
-  
-def drawElement():
-    if 'color' in cur:
-        t.color(cur['color'])
-    t.seth(0)
-    t.pendown()
-    t.begin_fill()
-    for i in range(2):
-        t.forward(cur['width'])
-        t.left(90)
-        t.forward(cur['height'])
-        t.left(90)
-    t.end_fill()
-    #content
-    if('content' in cur):
-        if 'textcolor' in cur:
-            t.color(cur['textcolor'])
-        else:
-            t.color(defaults['textcolor'])
-
-        fontfam = defaults['fontfamily']
-        fontsize = defaults['fontsize']
-        fonttype = defaults['fonttype']
-
-        t.penup()
-        t.setpos( ((cur['x'] + cur['width']) / 2) , ((cur['y'] + cur['height']) / 2) - (fontsize))
-        t.pendown
-
-        if('fontfamily' in cur):
-            fontfam = cur['fontfamily']
-        if('fontsize' in cur):
-            fontsize = cur['fontsize']
-        if('fonttype' in cur):
-            fonttype = cur['fonttype']
-
-        t.write(cur['content'],True,"Center",[fontfam,fontsize,fonttype])
-    t.penup()
-
-callbackRef = {
-  'x':adjustPos,
-  'y':ignore,
-  'width':drawElement,
-  'height':ignore,
-  'class':ignore,
-  'content':ignore,
-  'color':ignore,
-  'textcolor':ignore,
-  'fontfamily':ignore,
-  'fontsize':ignore,
-  'fonttype':ignore
-}
-
-# this was for testing
-
-#for ind1,element in enumerate(elements):
-#  cur = element
-#  if(element['class'] == 'button'):
-#      buttons.append([[element['x'],element['y']],[element['width'],element['height']]]) 
-#  for ind2,prop in enumerate(element):
-#    callbackRef[prop]()
     
-def click(x,y):
-  print(x,y)
-  for _,button in enumerate(buttons):
-      if(x in range(button[0][0],button[1][0]) and y in range(button[0][1],button[1][1])):
-          print("Hello World!")
+def click(data):
+  for _,element in enumerate(elements):
+    if(data.x in range(element.x,element.x + element.width) and data.y in range(element.y,element.y + element.height)):
+      element.onclickfunc(element)
 
     
-t.onscreenclick(click)
+#t.onscreenclick(click)
+ws = t.getcanvas()
+ws.bind('<Button-1>',click)
 
 def pause():
   if True:
