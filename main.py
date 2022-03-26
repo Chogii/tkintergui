@@ -1,7 +1,9 @@
-from tkinter.tix import Tk
+#from tkinter.tix import Tk
+#from tkinter.tix import Tk
 import turtle as t
 import tkinter as tk
-win = Tk()
+#from tkinter import Tk, tix
+win =  tk.Tk()
 win.withdraw()
 scxscale = 0.6
 scyscale = 0.6
@@ -29,7 +31,15 @@ def valColor(color):
     return 1
 
 class Element:
+  """
+  Create a basic element which you can assign many
+  different attributes to such as color, size,
+  position, content and onclick procedures
+  """
   def render(self):
+    """
+    Render the element onto the screen. This must be ran every time you want to push a visual change through
+    """
     self.turtle.pu()
     self.turtle.turtlesize(self.width / 20.2, self.height / 20.2, 0)
     self.turtle.goto((win.winfo_screenwidth() * scxscale / 2 * -1) + self.x + self.width - (self.width / 2 - 2), (win.winfo_screenheight() * scyscale / 2) - self.y - self.height + (self.height / 2 - 2))
@@ -58,17 +68,26 @@ class Element:
 
     elements.append(self)
 
-  def setx(self,xgiven):
+  def setx(self,xgiven: int) -> int:
+    """
+    Set the x-coordinate location of the element in pixels. every element starts at the top-left, and their origin is at the top left of itself
+    """
     if not isinstance(xgiven,int):
       raise TypeError("x must be an integer")
     self.x = xgiven
 
   def sety(self,ygiven):
+    """
+    Set the y-coordinate location of the element in pixels. every element starts at the top-left, and their origin is at the top left of itself
+    """
     if not isinstance(ygiven,int):
       raise TypeError("y must be an integer")
     self.y = ygiven
 
   def setwidth(self,xgiven):
+    """
+    Set the visual width of the element in pixels
+    """
     if not isinstance(xgiven,int):
       raise TypeError("x must be an integer")
     self.width = xgiven
@@ -108,7 +127,9 @@ class Element:
 
   def onclick(self,func):
     if(callable(func)):
-      self.onclick = func
+      self.onclickfunc = func
+    elif(func == "ignore"):
+      None
     else:
       raise TypeError("argument must be a function")
 
