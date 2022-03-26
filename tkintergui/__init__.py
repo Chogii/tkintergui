@@ -40,12 +40,14 @@ class Element:
     """
     Render the element onto the screen. This must be ran every time you want to push a visual change through
     """
-    self.turtle.pu()
-    self.turtle.turtlesize(self.width / 20.2, self.height / 20.2, 0)
-    self.turtle.goto((win.winfo_screenwidth() * scxscale / 2 * -1) + self.x + self.width - (self.width / 2 - 2), (win.winfo_screenheight() * scyscale / 2) - self.y - self.height + (self.height / 2 - 2))
-    t.color("#" + self.textcolor)
-    t.goto((win.winfo_screenwidth() * scxscale / 2 * -1) + self.x + self.width - (self.width / 2 - 2), (win.winfo_screenheight() * scyscale / 2) - self.y - self.height + (self.height / 2 - 2) - self.fontsize * 0.8)
-    t.write(self.content,True,"Center",[self.fontfamily,self.fontsize,self.fonttype])
+    if(self.hidden == False):
+      self.turtle.pu()
+      self.turtle.turtlesize(self.width / 20.2, self.height / 20.2, 0)
+      self.turtle.goto((win.winfo_screenwidth() * scxscale / 2 * -1) + self.x + self.width - (self.width / 2 - 2), (win.winfo_screenheight() * scyscale / 2) - self.y - self.height + (self.height / 2 - 2))
+      self.wturtle.clear()
+      self.wturtle.color("#" + self.textcolor)
+      self.wturtle.goto((win.winfo_screenwidth() * scxscale / 2 * -1) + self.x + self.width - (self.width / 2 - 2), (win.winfo_screenheight() * scyscale / 2) - self.y - self.height + (self.height / 2 - 2) - self.fontsize * 0.8)
+      self.wturtle.write(self.content,True,"Center",[self.fontfamily,self.fontsize,self.fonttype])
   
   def __init__(self):
     self.turtle = t.Turtle()
@@ -53,6 +55,13 @@ class Element:
     self.turtle.seth(270)
     self.turtle.shape("square")
     self.turtle.pu()
+
+    self.wturtle = t.Turtle()
+    self.wturtle.ht()
+    self.wturtle.speed('fastest')
+    self.wturtle.seth(270)
+    self.wturtle.shape("square")
+    self.wturtle.pu()
 
     self.x = 0
     self.y = 0
@@ -65,8 +74,21 @@ class Element:
     self.fontsize = 16
     self.fonttype = 'normal'
     self.content = ''
+    self.hidden = False
 
     elements.append(self)
+
+  def hide(self):
+    self.hidden = True
+    self.turtle.ht()
+    self.turtle.goto(-1000,-1000)
+    self.wturtle.clear()
+
+  def show(self):
+    if(self.hidden == True):
+      self.hidden = False
+      self.turtle.st()
+      self.render()
 
   def setx(self,xgiven: int):
     """

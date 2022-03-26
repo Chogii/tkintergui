@@ -143,6 +143,22 @@ Set the font size of the element's content
 testElement.setfontsize(16)
 ```
 
+**hide()**
+
+Hides the element from view and makes it intangible until shown again
+
+```py
+testElement.hide()
+```
+
+**show()**
+
+Shows the element after being hidden
+
+```py
+testElement.show()
+```
+
 **render()**
 
 Render an element. You must do this every time you want to push a visual change; Any methods from before will not visually update the element on its own
