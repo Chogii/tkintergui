@@ -17,7 +17,7 @@ cur = None
 global elements
 elements = []
 
-def placeholder():
+def placeholder(element):
   None
 
 def valColor(color):
@@ -68,7 +68,7 @@ class Element:
 
     elements.append(self)
 
-  def setx(self,xgiven: int) -> int:
+  def setx(self,xgiven: int):
     """
     Set the x-coordinate location of the element in pixels. every element starts at the top-left, and their origin is at the top left of itself
     """
@@ -76,7 +76,7 @@ class Element:
       raise TypeError("x must be an integer")
     self.x = xgiven
 
-  def sety(self,ygiven):
+  def sety(self,ygiven: int):
     """
     Set the y-coordinate location of the element in pixels. every element starts at the top-left, and their origin is at the top left of itself
     """
@@ -84,7 +84,7 @@ class Element:
       raise TypeError("y must be an integer")
     self.y = ygiven
 
-  def setwidth(self,xgiven):
+  def setwidth(self,xgiven: int):
     """
     Set the visual width of the element in pixels
     """
@@ -92,44 +92,75 @@ class Element:
       raise TypeError("x must be an integer")
     self.width = xgiven
 
-  def setheight(self,ygiven):
+  def setheight(self,ygiven: int):
+    """
+    Set the visual height of the element in pixels
+    """
     if not isinstance(ygiven,int):
       raise TypeError("y must be an integer")
     self.height= ygiven
 
-  def setcolor(self,colorgiven):
+  def setcolor(self,colorgiven: str):
+    """
+    Set the color of the element in a hexadecimal color code. Examples:\n
+    'FF0000'\n
+    'ccee99'\n
+    '000011'\n
+    """
     if not isinstance(colorgiven,str):
       raise TypeError("color must be a string in hexadecimal color code")
     if(valColor(colorgiven) != 1):
       self.color = colorgiven
       self.turtle.color("#" + colorgiven)
+    else:
+      raise Exception("color was not accepted. color must be a hexadecimal color code")
 
-  def settextcolor(self,colorgiven):
+  def settextcolor(self,colorgiven: str):
+    """
+    Set the color of the element's text content in a hexadecimal color code. Examples:\n
+    'FF0000'\n
+    'ccee99'\n
+    '000011'\n
+    """
     if not isinstance(colorgiven,str):
       raise TypeError("color must be a string in hexadecimal color code")
     if(valColor(colorgiven) != 1):
       self.textcolor = colorgiven
+    else:
+      raise Exception("color was not accepted. color must be a hexadecimal color code")
 
-  def setfontfamily(self,familygiven):
+  def setfontfamily(self,familygiven: str):
+    """
+    Set the font family of the element's text content by the font's name
+    """
     if not isinstance(familygiven,str):
       raise TypeError("family must be a string")
     self.fontfamily = familygiven
 
-  def setfontsize(self,sizegiven):
+  def setfontsize(self,sizegiven: int):
+    """
+    Set the font size of the element's text content
+    """
     if not isinstance(sizegiven,int):
       raise TypeError("family must be an integer")
     self.fontsize = sizegiven
 
-  def setcontent(self,contentgiven):
+  def setcontent(self,contentgiven: str):
+    """
+    Set the element's text content
+    """
     if not isinstance(contentgiven,str):
       raise TypeError("content must be a string")
     self.content = str(contentgiven)
 
   def onclick(self,func):
+    """
+    Set the function you want to be called when the element is clicked on. The first argument will always be the element that was clicked. Pass 'disable' instead of a function if you want to disable this after setting it already
+    """
     if(callable(func)):
       self.onclickfunc = func
-    elif(func == "ignore"):
-      None
+    elif(func == "disable"):
+      self.onclickfunc = placeholder
     else:
       raise TypeError("argument must be a function")
 
