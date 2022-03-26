@@ -145,7 +145,7 @@ testElement.setfontsize(16)
 
 **hide()**
 
-Hides the element from view and makes it intangible until shown again
+Hides the element from view and makes it intangible until shown again. This method does not require ``render()`` in order to be pushed
 
 ```py
 testElement.hide()
@@ -153,7 +153,7 @@ testElement.hide()
 
 **show()**
 
-Shows the element after being hidden
+Shows the element after being hidden. This method does not require ``render()`` in order to be pushed
 
 ```py
 testElement.show()
