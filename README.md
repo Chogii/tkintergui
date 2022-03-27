@@ -23,7 +23,7 @@ def test(element):
     element.hide()
     element.setx(300)
     element.sety(300)
-    element.setcontent("I'm here now!")
+    element.setcontent(element.data)
     element.render()
     element.onclick('disable')
 
@@ -35,6 +35,7 @@ testElement.setcolor("5069E5")
 testElement.setcontent("Button")
 testElement.settextcolor("00FF00")
 testElement.setfontfamily("Segoe UI")
+testElement.setdata("I'm Here Now!")
 testElement.onclick(test)
 testElement.render()
 
@@ -160,6 +161,16 @@ Set the font size of the element's content
 testElement.setfontsize(16)
 ```
 
+**setdata(*any*)**
+
+Assign any data you want to an element which you can retrieve later with ``element.data``
+
+```py
+testElement.setdata("Hello World!")
+print(testElement.data) 
+# >> "Hello World!"
+```
+
 **hide()**
 
 Hides the element from view and makes it intangible until shown again. This method does not require ``render()`` in order to be pushed
@@ -183,4 +194,60 @@ Render an element. You must do this every time you want to push a visual change;
 ```py
 testElement.render()
 ```
+
+**Variables**
+
+**turtle** (turtle object)
+
+The turtle variables contains the turtle object which is literally the element itself. Any methods from the original turtle module can be applied to this one, but is generally not recommended!
+
+**wturtle** (turtle object)
+
+Another turtle object within the element but is only responsible for rendering text
+
+**x** (int)
+
+The x position of the element on the screen
+
+**y** (int)
+
+The y position of the element on the screen
+
+**onclickfunc** (fun)
+
+The function the element will perform whenever it is clicked
+
+**width** (int)
+
+The width of the element's size
+
+**height** (int)
+
+The height of the element's size
+
+**color** (str)
+
+The hexadecimal color of the element
+
+**content** (str)
+
+The text content the element will render at its center
+
+**textcolor** (str)
+
+The hexadecimal color of the element's rendered text content 
+
+**fontfamily** (str)
+
+The name of the font family the text content will be rendered in
+
+**fontsize** (int)
+
+The size the text content will be rendered in
+
+**hidden** (bool)
+
+Identifies whether or not the element is hidden from view at the moment
+
+
 
