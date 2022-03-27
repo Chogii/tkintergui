@@ -82,16 +82,28 @@ class Element:
     elements.append(self)
 
   def hide(self):
+    """
+    Hides the element from view and makes it intangible 
+    """
     self.hidden = True
     self.turtle.ht()
     self.turtle.goto(-1000,-1000)
     self.wturtle.clear()
 
   def show(self):
+    """
+    Brings the element back into view and makes it tangible again after being hidden
+    """
     if(self.hidden == True):
       self.hidden = False
       self.turtle.st()
       self.render()
+
+  def setdata(self,userdata):
+    """
+    Assign any data you want to the element
+    """
+    self.data = userdata
 
   def setx(self,xgiven: int):
     """
