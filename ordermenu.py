@@ -166,8 +166,12 @@ for catindex,cat in enumerate(menu):
     for itemindex,item in enumerate(catObject):
         itemObject = catObject[item]
         if item.startswith('__') != True :
+            temp = "$" + str(itemObject['price'] / 100)
+            if(temp[-2] == "."):
+                temp += "0"
+
             itembox = gui.Element()
-            itembox.setcontent(item)
+            itembox.setcontent(item + " - " + temp)
             itembox.setx(header.x)
             itembox.sety(itemindex * 50)
             itembox.setwidth(200)
@@ -176,8 +180,10 @@ for catindex,cat in enumerate(menu):
             itembox.settextcolor("FFFFFF")
             itembox.setdata([item,itemObject])
             itembox.onclick(addTo)
-            if len(item) > 12:
+            if len(item + temp) > 12:
                 itembox.setfontsize(12)
+            if len(item + temp) > 18:
+                itembox.setfontsize(10)
 
             itembox.render()
 

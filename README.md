@@ -28,9 +28,15 @@ def test(element):
     element.onclick('disable')
 
 testElement.setx(100)
+testElement.setxpercent(10)
 testElement.sety(100)
+testElement.setypercent(20)
+
 testElement.setwidth(200)
+testElement.setwidthpercent(10)
 testElement.setheight(50)
+testElement.setheightpercent(10)
+
 testElement.setcolor("5069E5")
 testElement.setcontent("Button")
 testElement.settextcolor("00FF00")
@@ -97,12 +103,28 @@ Set the position of the element on the x-coordinate plane in pixels
 testElement.setx(100)
 ```
 
+**setxpercent(*int*)**
+
+Set the position of the element on the x-coordinate plane in percentage of the screen width (0 to 100)
+
+```py
+testElement.setxpercent(50)
+```
+
 **sety(*int*)**
 
 Set the position of the element on the y-coordinate plane in pixels
 
 ```py
 testElement.sety(150)
+```
+
+**setypercent(*int*)**
+
+Set the position of the element on the y-coordinate plane in percentage of the screen height (0 to 100)
+
+```py
+testElement.setypercent(50)
 ```
 
 **setwidth(*int*)**
@@ -113,12 +135,28 @@ Set the width of the element in pixels
 testElement.setwidth(200)
 ```
 
+**setwidthpercent(*int*)**
+
+Set the width of the element in percentage of the screen width 
+
+```py
+testElement.setwidthpercent(25)
+```
+
 **setheight(*int*)**
 
 Set the height of the element in pixels 
 
 ```py
 testElement.setheight(50)
+```
+
+**setheightpercent(*int*)**
+
+Set the height of the element in percentage of the screen height 
+
+```py
+testElement.setheightpercent(25)
 ```
 
 **setcolor(*(Hexadecimal Color Code)*)**
@@ -209,9 +247,17 @@ Another turtle object within the element but is only responsible for rendering t
 
 The x position of the element on the screen
 
+**xper** (int)
+
+Duplicate of x, but ``setxpercent()`` does the math for you
+
 **y** (int)
 
 The y position of the element on the screen
+
+**yper** (int)
+
+Duplicate of y, but ``setypercent()`` does the math for you
 
 **onclickfunc** (fun)
 
@@ -221,9 +267,17 @@ The function the element will perform whenever it is clicked
 
 The width of the element's size
 
+**widthper** (int)
+
+Duplicate of width, but ``setwidthpercent()`` does the math for you
+
 **height** (int)
 
 The height of the element's size
+
+**heightper** (int)
+
+Duplicate of height, but ``setheightpercent()`` does the math for you
 
 **color** (str)
 

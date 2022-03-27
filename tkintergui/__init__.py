@@ -43,11 +43,11 @@ class Element:
     """
     if(self.hidden == False):
       self.turtle.pu()
-      self.turtle.turtlesize(self.width / 20.2, self.height / 20.2, 0)
-      self.turtle.goto((win.winfo_screenwidth() * scxscale / 2 * -1) + self.x + self.width - (self.width / 2 - 2), (win.winfo_screenheight() * scyscale / 2) - self.y - self.height + (self.height / 2 - 2))
+      self.turtle.turtlesize((self.width + self.widthper) / 20.2, (self.height + self.heightper) / 20.2, 0)
+      self.turtle.goto((win.winfo_screenwidth() * scxscale / 2 * -1) + self.x + self.xper + self.width - (self.width / 2 - 2), (win.winfo_screenheight() * scyscale / 2) - self.y - self.yper - self.height + (self.height / 2 - 2))
       self.wturtle.clear()
       self.wturtle.color("#" + self.textcolor)
-      self.wturtle.goto((win.winfo_screenwidth() * scxscale / 2 * -1) + self.x + self.width - (self.width / 2 - 2), (win.winfo_screenheight() * scyscale / 2) - self.y - self.height + (self.height / 2 - 2) - self.fontsize * 0.8)
+      self.wturtle.goto((win.winfo_screenwidth() * scxscale / 2 * -1) + self.x + self.xper + self.width - (self.width / 2 - 2), (win.winfo_screenheight() * scyscale / 2) - self.y - self.yper - self.height + (self.height / 2 - 2) - self.fontsize * 0.8)
       self.wturtle.write(self.content,True,"Center",[self.fontfamily,self.fontsize,self.fonttype])
   
   def __init__(self):
@@ -68,9 +68,13 @@ class Element:
 
     self.x = 0
     self.y = 0
+    self.xper = 0
+    self.yper = 0
     self.onclickfunc = placeholder
     self.width = 0
+    self.widthper = 0
     self.height = 0
+    self.heightper = 0
     self.color = "000000"
     self.textcolor = "000000"
     self.fontfamily = "Sans Serif"
@@ -107,19 +111,35 @@ class Element:
 
   def setx(self,xgiven: int):
     """
-    Set the x-coordinate location of the element in pixels. every element starts at the top-left, and their origin is at the top left of itself
+    Set the x-coordinate location of the element in pixels. Every element starts at the top-left, and their origin is at the top left of itself
     """
     if not isinstance(xgiven,int):
       raise TypeError("x must be an integer")
     self.x = xgiven
 
+  def setxpercent(self,xgiven: int):
+    """
+    Set the x-coordinate location of the element in a percentage of the screen size (0 to 100). Every element starts at the top-left, and their origin is at the top left of itself
+    """
+    if not isinstance(xgiven,int):
+      raise TypeError("x must be an integer")
+    self.xper = (win.winfo_screenwidth() * scxscale) * (xgiven / 100)
+
   def sety(self,ygiven: int):
     """
-    Set the y-coordinate location of the element in pixels. every element starts at the top-left, and their origin is at the top left of itself
+    Set the y-coordinate location of the element in pixels. Every element starts at the top-left, and their origin is at the top left of itself
     """
     if not isinstance(ygiven,int):
       raise TypeError("y must be an integer")
     self.y = ygiven
+
+  def setypercent(self,ygiven: int):
+    """
+    Set the y-coordinate location of the element in a percentage of the screen size (0 to 100). Every element starts at the top-left, and their origin is at the top left of itself
+    """
+    if not isinstance(ygiven,int):
+      raise TypeError("y must be an integer")
+    self.yper = (win.winfo_screenheight() * scyscale) * (ygiven / 100)
 
   def setwidth(self,xgiven: int):
     """
@@ -129,6 +149,14 @@ class Element:
       raise TypeError("x must be an integer")
     self.width = xgiven
 
+  def setwidthpercent(self,xgiven: int):
+    """
+    Set the visual width of the element in percentage of the screen width (0 to 100)
+    """
+    if not isinstance(xgiven,int):
+      raise TypeError("x must be an integer")
+    self.widthper = (win.winfo_screenwidth() * scxscale) * (xgiven / 100)
+
   def setheight(self,ygiven: int):
     """
     Set the visual height of the element in pixels
@@ -136,6 +164,14 @@ class Element:
     if not isinstance(ygiven,int):
       raise TypeError("y must be an integer")
     self.height= ygiven
+
+  def setheightpercent(self,ygiven: int):
+    """
+    Set the visual height of the element in percentage of the screen height (0 to 100)
+    """
+    if not isinstance(ygiven,int):
+      raise TypeError("y must be an integer")
+    self.heightper = (win.winfo_screenheight() * scyscale) * (ygiven / 100)
 
   def setcolor(self,colorgiven: str):
     """
