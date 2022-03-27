@@ -68,13 +68,13 @@ class Element:
 
     self.x = 0
     self.y = 0
-    self.xper = 0
-    self.yper = 0
+    self.xper = [0,0]
+    self.yper = [0,0]
     self.onclickfunc = placeholder
     self.width = 0
-    self.widthper = 0
+    self.widthper = [0,0]
     self.height = 0
-    self.heightper = 0
+    self.heightper = [0,0]
     self.color = "000000"
     self.textcolor = "000000"
     self.fontfamily = "Sans Serif"
@@ -236,23 +236,6 @@ class Element:
       self.onclickfunc = placeholder
     else:
       raise TypeError("argument must be a function")
-
-  #def renderold(self):
-  #  if(self.rendered == False):
-  #    self.rendered = True
-  #    t.setx(self.x)
-  #    t.sety(self.y)
-  #    t.color("#" + self.color)
-  #    t.seth(0)
-  #    t.pendown()
-  #    t.begin_fill()
-  #    for i in range(2):
-  #      t.forward(self.width)
-  #      t.left(90)
-  #      t.forward(self.height)
-  #      t.left(90)
-  #    t.end_fill()
-  #    t.penup()
 
 def finish():
   t.done()

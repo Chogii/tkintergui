@@ -1,8 +1,4 @@
-import enum
-import tkintergui as gui 
-
-order = {}
-
+import tkintergui as gui
 menu = {
     "Meals": {
         "__config__":{
@@ -118,83 +114,17 @@ menu = {
     }
 }
 
-xreach = 0
-total = gui.Element()
+total = 0
 
-
-def updateTotal():
-    amount = 0
-    pretty = ""
-    for _,item in enumerate(order):
-        itemObject = order[item]
-        amount += itemObject["price"]
-    amount = amount / 100
-    pretty = "Total: $" + str(amount)
-    if(pretty[-2] == "."):
-        pretty += "0"
-    total.setcontent(pretty)
-    total.render()
-
-def addTo(element):
-    itemObject = element.data[1]
-    itemName = element.data[0]
-    try:
-        del order[itemName]
-        element.setcolor("000000")
-        element.settextcolor("FFFFFF")
-    except:
-        order[itemName] = itemObject
-        element.setcolor("32A852")
-        element.settextcolor("000000")
-    element.render()
-    updateTotal()
-
-
-for catindex,cat in enumerate(menu):
-    catObject = menu[cat]
-    config = catObject["__config__"]
-    header = gui.Element()
-    header.setcontent(cat)
-    header.settextcolor("FFFFFF")
-    header.setcolor(config['headercolor'])
-    header.setwidthpercent(20)
-    xreach += header.widthper[0]
-    header.setheight(50)
-    header.setx(catindex * header.widthper[0])
-    header.render()
-
-    for itemindex,item in enumerate(catObject):
-        itemObject = catObject[item]
-        if item.startswith('__') != True :
-            temp = "$" + str(itemObject['price'] / 100)
-            if(temp[-2] == "."):
-                temp += "0"
-
-            itembox = gui.Element()
-            itembox.setcontent(item + " - " + temp)
-            itembox.setx(header.x)
-            itembox.sety(itemindex * 50)
-            itembox.setwidthpercent(20)
-            itembox.setheight(50)
-            itembox.setcolor("000000")
-            itembox.settextcolor("FFFFFF")
-            itembox.setdata([item,itemObject])
-            itembox.onclick(addTo)
-            if len(item + temp) > 12:
-                itembox.setfontsize(12)
-            if len(item + temp) > 18:
-                itembox.setfontsize(10)
-
-            itembox.render()
-
-total.setx(xreach)
-total.setcolor("FFFFFF")
-total.settextcolor("000000")
-total.setfontsize(20)
-total.setwidthpercent(20)
-total.setheight(75)
-total.setcontent("Total: $0.00")
-total.render()
-
+for catIndex,catName in enumerate(menu):
+    catObject = menu[catName]
+    catConfig = catObject["__config__"]
+    catHeader = gui.Element()
+    catHeader.setcontent(catName)
+    catHeader.setwidthpercent(20)
+    catHeader.setheightpercent(5)
+    catHeader.setcolor(catConfig['headercolor'])
+    catHeader.settextcolor("FFFFFF")
+    catHeader.render()
 
 gui.finish()
