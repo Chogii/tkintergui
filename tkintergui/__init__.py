@@ -12,6 +12,7 @@ screen.setup(scxscale,scyscale)
 t.penup()
 t.ht()
 t.speed('fastest')
+t.tracer(True,0)
 global cur
 cur = None
 global elements
@@ -50,18 +51,20 @@ class Element:
       self.wturtle.write(self.content,True,"Center",[self.fontfamily,self.fontsize,self.fonttype])
   
   def __init__(self):
-    self.turtle = t.Turtle()
-    self.turtle.speed('fastest')
-    self.turtle.seth(270)
-    self.turtle.shape("square")
-    self.turtle.pu()
-
     self.wturtle = t.Turtle()
     self.wturtle.ht()
     self.wturtle.speed('fastest')
     self.wturtle.seth(270)
     self.wturtle.shape("square")
     self.wturtle.pu()
+
+    self.turtle = t.Turtle()
+    self.turtle.speed('fastest')
+    self.turtle.seth(270)
+    self.turtle.shape("square")
+    self.turtle.pu()
+
+    
 
     self.x = 0
     self.y = 0
@@ -204,7 +207,7 @@ class Element:
   #    t.penup()
 
 def finish():
-    t.done()
+  t.done()
     
 def click(data):
   for _,element in enumerate(elements):
@@ -216,6 +219,6 @@ def click(data):
 ws = t.getcanvas()
 ws.bind('<Button-1>',click)
 
-def pause():
-  if True:
-    t.ontimer(pause,250)
+#def pause():
+#  if True:
+#    t.ontimer(pause,250)
