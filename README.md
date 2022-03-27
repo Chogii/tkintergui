@@ -247,17 +247,17 @@ Another turtle object within the element but is only responsible for rendering t
 
 The x position of the element on the screen
 
-**xper** (int)
+**xper** (list)
 
-Duplicate of x, but ``setxpercent()`` does the math for you
+A list containing the calculated x position from ``setxpercent()`` and the set percentage
 
 **y** (int)
 
 The y position of the element on the screen
 
-**yper** (int)
+**yper** (list)
 
-Duplicate of y, but ``setypercent()`` does the math for you
+A list containing the calculated y position from ``setypercent()`` and the set percentage
 
 **onclickfunc** (fun)
 
@@ -267,17 +267,17 @@ The function the element will perform whenever it is clicked
 
 The width of the element's size
 
-**widthper** (int)
+**widthper** (list)
 
-Duplicate of width, but ``setwidthpercent()`` does the math for you
+A list containing the calculated width from ``setwidthpercent()`` and the set percentage
 
 **height** (int)
 
 The height of the element's size
 
-**heightper** (int)
+**heightper** (list)
 
-Duplicate of height, but ``setheightpercent()`` does the math for you
+A list containing the calculated height from ``setheightpercent()`` and the set percentage
 
 **color** (str)
 

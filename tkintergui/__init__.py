@@ -43,11 +43,11 @@ class Element:
     """
     if(self.hidden == False):
       self.turtle.pu()
-      self.turtle.turtlesize((self.width + self.widthper) / 20.2, (self.height + self.heightper) / 20.2, 0)
-      self.turtle.goto((win.winfo_screenwidth() * scxscale / 2 * -1) + self.x + self.xper + self.width - (self.width / 2 - 2), (win.winfo_screenheight() * scyscale / 2) - self.y - self.yper - self.height + (self.height / 2 - 2))
+      self.turtle.turtlesize((self.width + self.widthper[0]) / 20.2, (self.height + self.heightper[0]) / 20.2, 0)
+      self.turtle.goto((win.winfo_screenwidth() * scxscale / 2 * -1) + self.x + self.xper[0] + self.width - (self.width / 2 - 2), (win.winfo_screenheight() * scyscale / 2) - self.y - self.yper[0] - self.height + (self.height / 2 - 2))
       self.wturtle.clear()
       self.wturtle.color("#" + self.textcolor)
-      self.wturtle.goto((win.winfo_screenwidth() * scxscale / 2 * -1) + self.x + self.xper + self.width - (self.width / 2 - 2), (win.winfo_screenheight() * scyscale / 2) - self.y - self.yper - self.height + (self.height / 2 - 2) - self.fontsize * 0.8)
+      self.wturtle.goto((win.winfo_screenwidth() * scxscale / 2 * -1) + self.x + self.xper[0] + self.width - (self.width / 2 - 2), (win.winfo_screenheight() * scyscale / 2) - self.y - self.yper[0] - self.height + (self.height / 2 - 2) - self.fontsize * 0.8)
       self.wturtle.write(self.content,True,"Center",[self.fontfamily,self.fontsize,self.fonttype])
   
   def __init__(self):
@@ -123,7 +123,7 @@ class Element:
     """
     if not isinstance(xgiven,int):
       raise TypeError("x must be an integer")
-    self.xper = (win.winfo_screenwidth() * scxscale) * (xgiven / 100)
+    self.xper = [(win.winfo_screenwidth() * scxscale) * (xgiven / 100),xgiven]
 
   def sety(self,ygiven: int):
     """
@@ -139,7 +139,7 @@ class Element:
     """
     if not isinstance(ygiven,int):
       raise TypeError("y must be an integer")
-    self.yper = (win.winfo_screenheight() * scyscale) * (ygiven / 100)
+    self.yper = [(win.winfo_screenheight() * scyscale) * (ygiven / 100),ygiven]
 
   def setwidth(self,xgiven: int):
     """
@@ -155,7 +155,7 @@ class Element:
     """
     if not isinstance(xgiven,int):
       raise TypeError("x must be an integer")
-    self.widthper = (win.winfo_screenwidth() * scxscale) * (xgiven / 100)
+    self.widthper = [(win.winfo_screenwidth() * scxscale) * (xgiven / 100),xgiven]
 
   def setheight(self,ygiven: int):
     """
@@ -171,7 +171,7 @@ class Element:
     """
     if not isinstance(ygiven,int):
       raise TypeError("y must be an integer")
-    self.heightper = (win.winfo_screenheight() * scyscale) * (ygiven / 100)
+    self.heightper = [(win.winfo_screenheight() * scyscale) * (ygiven / 100),ygiven]
 
   def setcolor(self,colorgiven: str):
     """
@@ -262,10 +262,19 @@ def click(data):
     if(data.x in range(element.x,element.x + element.width) and data.y in range(element.y,element.y + element.height)):
       element.onclickfunc(element)
 
+def config(data):
+  for _,ob in enumerate(elements):
+    ob.xper = [(win.winfo_screenwidth() * scxscale) * (ob.xper[1] / 100),ob.xper[1]]
+    ob.yper = [(win.winfo_screenheight() * scxscale) * (ob.yper[1] / 100),ob.yper[1]]
+    ob.widthper = [(data.width) * (ob.widthper[1] / 100),ob.widthper[1]]
+    ob.heightper = [(data.height) * (ob.heightper[1] / 100),ob.heightper[1]]
+    ob.render()
+
     
 #t.onscreenclick(click)
 ws = t.getcanvas()
 ws.bind('<Button-1>',click)
+ws.bind('<Configure>',config)
 
 #def pause():
 #  if True:
