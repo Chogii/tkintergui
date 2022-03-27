@@ -249,5 +249,9 @@ The size the text content will be rendered in
 
 Identifies whether or not the element is hidden from view at the moment
 
+**data** (any)
+
+The optional user data assigned to the element
+
 
 
