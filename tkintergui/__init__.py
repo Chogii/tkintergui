@@ -2,14 +2,17 @@
 #from tkinter.tix import Tk
 import turtle as t
 import tkinter as tk
+from tkinter import messagebox as msg
 import time
 from typing import Type
+import platform
 #from tkinter import Tk, tix
 win =  tk.Tk()
 win.withdraw()
 #scxscale = 0.6
 #scyscale = 0.6
 screen = t.Screen()
+canvas = screen.getcanvas()
 t.penup()
 t.ht()
 t.speed('fastest')
@@ -22,7 +25,12 @@ global userconfig
 userconfig = {
   "RESIZABLE":False,
   "SCREEN_SIZE_METHOD":0,
-  "SCREEN_SIZE":[0.6,0.6]
+  "SCREEN_SIZE":[0.6,0.6],
+  "FULLSCREEN":True,
+  "TITLE":"Made with TkinterGUI",
+  "WINDOWS_DISABLED":False,
+  "MAC_DISABLED":False,
+  "LINUX_DISABLED":False
 }
 availmethods = [0,1]
 
@@ -306,9 +314,19 @@ def __config__(data):
     ob.heightper = [(data.height) * (ob.heightper[1] / 100),ob.heightper[1]]
     ob.render()
 
+def forcequit():
+  win.quit()
+  t.bye()
+
 def reconfig():
   screen.setup(userconfig["SCREEN_SIZE"][0],userconfig["SCREEN_SIZE"][1])
   win.resizable(userconfig["RESIZABLE"],userconfig["RESIZABLE"])
+  
+  
+  win.title(userconfig["TITLE"])
+  if(platform.system() == 'Windows' and userconfig["WINDOWS_DISABLED"] == True) or (platform.system() == 'Darwin' and userconfig["MAC_DISABLED"] == True) or (platform.system() == 'Linux' and userconfig["LINUX_DISABLED"] == True):
+    msg.showerror("Operating System Restricted","The developer of this application has disabled usage on this particular operating system. Sorry for any inconvenience")
+    forcequit
 
 reconfig()
 
