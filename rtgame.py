@@ -2,6 +2,7 @@ from bisect import bisect_right
 import tkintergui as gui
 import time
 import datetime
+import random
 
 infobox = gui.Element()
 reactbox = gui.Element()
@@ -16,9 +17,11 @@ def results():
     global taken
     if(state == 1):
         reactbox.setcontent("Too early! Click to start again")
+        state = 0
     elif(state == 2):
         state = 0
-        reactbox.setcontent(str( round( ((taken[1] - taken[0]) * 100 ),2) ) + "ms. Click to start again" )
+        taken[1] = time.time()
+        reactbox.setcontent(str( round( ((taken[1] - taken[0]) * 1000 ),2)) + "ms. Click to start again" )
     reactbox.render()
     state = 0
 
@@ -27,16 +30,21 @@ def activate(object):
     global taken
     if state == 0:
         state = 1
-        taken[0] = time.time()
         infobox.setcontent("When the square turns green, click!")
         infobox.render()
         reactbox.setcolor("FF0000")
+        reactbox.setcontent("Wait...")
         reactbox.render()
-        time.sleep(3)
+        #time.sleep(random.randrange(2,5))
+        for i in range(random.randrange(20,50)):
+            time.sleep(0.1)
+            if(state != 1):
+                break
         if(state == 1):
             state = 2
-            taken[1] = time.time()
             reactbox.setcolor("00FF00")
+            reactbox.setcontent("Now!")
+            taken[0] = time.time()
             reactbox.render()
     else:
         results()
