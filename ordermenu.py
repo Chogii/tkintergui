@@ -157,10 +157,10 @@ for catindex,cat in enumerate(menu):
     header.setcontent(cat)
     header.settextcolor("FFFFFF")
     header.setcolor(config['headercolor'])
-    header.setwidthpercent(20)
-    xreach += header.widthper[0]
+    header.setwidth(150)
+    xreach += header.width
     header.setheight(50)
-    header.setx(catindex * header.widthper[0])
+    header.setx(catindex * header.width)
     header.render()
 
     for itemindex,item in enumerate(catObject):
@@ -174,7 +174,7 @@ for catindex,cat in enumerate(menu):
             itembox.setcontent(item + " - " + temp)
             itembox.setx(header.x)
             itembox.sety(itemindex * 50)
-            itembox.setwidthpercent(20)
+            itembox.setwidth(150)
             itembox.setheight(50)
             itembox.setcolor("000000")
             itembox.settextcolor("FFFFFF")
@@ -191,7 +191,7 @@ total.setx(xreach)
 total.setcolor("FFFFFF")
 total.settextcolor("000000")
 total.setfontsize(20)
-total.setwidthpercent(20)
+total.setwidth(200)
 total.setheight(75)
 total.setcontent("Total: $0.00")
 total.render()

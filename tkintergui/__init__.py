@@ -2,13 +2,14 @@
 #from tkinter.tix import Tk
 import turtle as t
 import tkinter as tk
+import time
+from typing import Type
 #from tkinter import Tk, tix
 win =  tk.Tk()
 win.withdraw()
-scxscale = 0.6
-scyscale = 0.6
+#scxscale = 0.6
+#scyscale = 0.6
 screen = t.Screen()
-screen.setup(scxscale,scyscale)
 t.penup()
 t.ht()
 t.speed('fastest')
@@ -17,6 +18,50 @@ global cur
 cur = None
 global elements
 elements = []
+global userconfig
+userconfig = {
+  "RESIZABLE":False,
+  "SCREEN_SIZE_METHOD":0,
+  "SCREEN_SIZE":[0.6,0.6]
+}
+availmethods = [0,1]
+
+
+def setresizable(toggle: bool):
+  """
+  Set whether or not the window can be risized by the user
+  """
+  if type(toggle) != bool:
+    raise TypeError("setresizable only accepts a boolean 'True' or 'False'")
+  else:
+    userconfig["RESIZABLE"] = toggle
+
+def setscreensizemethod(method: int):
+  """
+  Set the resizing method for the screen. Available methods are:
+  0: Defined by percentage (0 to 100)
+  1: Defined by pixels (positive integer)
+  """
+  if type(method != int):
+    raise TypeError("setscreensizemethod only accepts an integer")
+  else:
+    if method in range(0,len(availmethods)):
+      userconfig["SCREEN_SIZE_METHOD"] = method
+    else:
+      raise Exception("defined method " + str(method) + " does not exist")
+
+def setscreensize(x: int,y: int):
+  if type(x) != int or type(y) != int:
+    raise TypeError("both x and y arguments must be an integer value")
+  if x < 0 or y < 0:
+    raise Exception("both x and y values must be a positive integer")
+  if(userconfig["SCREEN_SIZE_METHOD"] == 1):
+    x = x / win.winfo_screenwidth
+    y = y / win.winfo_screenheight
+  else:
+    x = x / 100
+    y = y / 100
+  userconfig["SCREEN_SIZE"] = [x,y]
 
 def placeholder(element):
   None
@@ -45,10 +90,10 @@ class Element:
       self.turtle.pu()
       self.turtle.showturtle()
       self.turtle.turtlesize((self.width + self.widthper[0]) / 20.2, (self.height + self.heightper[0]) / 20.2, 0)
-      self.turtle.goto((win.winfo_screenwidth() * scxscale / 2 * -1) + self.x + self.xper[0] + self.width - (self.width / 2 - 2), (win.winfo_screenheight() * scyscale / 2) - self.y - self.yper[0] - self.height + (self.height / 2 - 2))
+      self.turtle.goto((win.winfo_screenwidth() * userconfig["SCREEN_SIZE"][0] / 2 * -1) + self.x + self.xper[0] + self.width - (self.width / 2 - 2), (win.winfo_screenheight() * userconfig["SCREEN_SIZE"][1] / 2) - self.y - self.yper[0] - self.height + (self.height / 2 - 2))
       self.wturtle.clear()
       self.wturtle.color("#" + self.textcolor)
-      self.wturtle.goto((win.winfo_screenwidth() * scxscale / 2 * -1) + self.x + self.xper[0] + self.width - (self.width / 2 - 2), (win.winfo_screenheight() * scyscale / 2) - self.y - self.yper[0] - self.height + (self.height / 2 - 2) - self.fontsize * 0.8)
+      self.wturtle.goto((win.winfo_screenwidth() * userconfig["SCREEN_SIZE"][0] / 2 * -1) + self.x + self.xper[0] + self.width - (self.width / 2 - 2), (win.winfo_screenheight() * userconfig["SCREEN_SIZE"][1] / 2) - self.y - self.yper[0] - self.height + (self.height / 2 - 2) - self.fontsize * 0.8)
       self.wturtle.write(self.content,True,"Center",[self.fontfamily,self.fontsize,self.fonttype])
   
   def __init__(self):
@@ -125,7 +170,7 @@ class Element:
     """
     if not isinstance(xgiven,int):
       raise TypeError("x must be an integer")
-    self.xper = [(win.winfo_screenwidth() * scxscale) * (xgiven / 100),xgiven]
+    self.xper = [(win.winfo_screenwidth() * userconfig["SCREEN_SIZE"][0]) * (xgiven / 100),xgiven]
 
   def sety(self,ygiven: int):
     """
@@ -141,7 +186,7 @@ class Element:
     """
     if not isinstance(ygiven,int):
       raise TypeError("y must be an integer")
-    self.yper = [(win.winfo_screenheight() * scyscale) * (ygiven / 100),ygiven]
+    self.yper = [(win.winfo_screenheight() * userconfig["SCREEN_SIZE"][1]) * (ygiven / 100),ygiven]
 
   def setwidth(self,xgiven: int):
     """
@@ -157,7 +202,7 @@ class Element:
     """
     if not isinstance(xgiven,int):
       raise TypeError("x must be an integer")
-    self.widthper = [(win.winfo_screenwidth() * scxscale) * (xgiven / 100),xgiven]
+    self.widthper = [(win.winfo_screenwidth() * userconfig["SCREEN_SIZE"][0]) * (xgiven / 100),xgiven]
 
   def setheight(self,ygiven: int):
     """
@@ -173,7 +218,7 @@ class Element:
     """
     if not isinstance(ygiven,int):
       raise TypeError("y must be an integer")
-    self.heightper = [(win.winfo_screenheight() * scyscale) * (ygiven / 100),ygiven]
+    self.heightper = [(win.winfo_screenheight() * userconfig["SCREEN_SIZE"][1]) * (ygiven / 100),ygiven]
 
   def setcolor(self,colorgiven: str):
     """
@@ -243,7 +288,8 @@ class Element:
 def finish():
   t.done()
     
-def click(data):
+def __click__(data):
+  print(data)
   for _,element in enumerate(elements):
     calcx = int(element.x + element.xper[0])
     calcy = int(element.y + element.yper[0])
@@ -252,19 +298,25 @@ def click(data):
     if(data.x in range(calcx,calcx + calcw) and data.y in range(calcy,calcy + calch)):
       element.onclickfunc(element)
 
-def config(data):
+def __config__(data):
   for _,ob in enumerate(elements):
-    ob.xper = [(win.winfo_screenwidth() * scxscale) * (ob.xper[1] / 100),ob.xper[1]]
-    ob.yper = [(win.winfo_screenheight() * scxscale) * (ob.yper[1] / 100),ob.yper[1]]
+    ob.xper = [(win.winfo_screenwidth() * userconfig["SCREEN_SIZE"][0]) * (ob.xper[1] / 100),ob.xper[1]]
+    ob.yper = [(win.winfo_screenheight() * userconfig["SCREEN_SIZE"][0]) * (ob.yper[1] / 100),ob.yper[1]]
     ob.widthper = [(data.width) * (ob.widthper[1] / 100),ob.widthper[1]]
     ob.heightper = [(data.height) * (ob.heightper[1] / 100),ob.heightper[1]]
     ob.render()
 
+def reconfig():
+  screen.setup(userconfig["SCREEN_SIZE"][0],userconfig["SCREEN_SIZE"][1])
+  win.resizable(userconfig["RESIZABLE"],userconfig["RESIZABLE"])
+
+reconfig()
+
     
 #t.onscreenclick(click)
 ws = t.getcanvas()
-ws.bind('<Button-1>',click)
-ws.bind('<Configure>',config)
+ws.bind('<Button-1>',__click__)
+ws.bind('<Configure>',__config__)
 
 #def pause():
 #  if True:

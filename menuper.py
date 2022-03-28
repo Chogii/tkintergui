@@ -115,6 +115,7 @@ menu = {
 }
 
 total = 0
+xpush = 0
 
 for catIndex,catName in enumerate(menu):
     catObject = menu[catName]
@@ -122,6 +123,8 @@ for catIndex,catName in enumerate(menu):
     catHeader = gui.Element()
     catHeader.setcontent(catName)
     catHeader.setwidthpercent(20)
+    catHeader.setxpercent(xpush)
+    xpush += 20
     catHeader.setheightpercent(5)
     catHeader.setcolor(catConfig['headercolor'])
     catHeader.settextcolor("FFFFFF")
