@@ -43,6 +43,7 @@ class Element:
     """
     if(self.hidden == False):
       self.turtle.pu()
+      self.turtle.showturtle()
       self.turtle.turtlesize((self.width + self.widthper[0]) / 20.2, (self.height + self.heightper[0]) / 20.2, 0)
       self.turtle.goto((win.winfo_screenwidth() * scxscale / 2 * -1) + self.x + self.xper[0] + self.width - (self.width / 2 - 2), (win.winfo_screenheight() * scyscale / 2) - self.y - self.yper[0] - self.height + (self.height / 2 - 2))
       self.wturtle.clear()
@@ -59,6 +60,7 @@ class Element:
     self.wturtle.pu()
 
     self.turtle = t.Turtle()
+    self.turtle.ht()
     self.turtle.speed('fastest')
     self.turtle.seth(270)
     self.turtle.shape("square")
@@ -230,6 +232,7 @@ class Element:
     """
     Set the function you want to be called when the element is clicked on. The first argument will always be the element that was clicked. Pass 'disable' instead of a function if you want to disable this after setting it already
     """
+    print(func)
     if(callable(func)):
       self.onclickfunc = func
     elif(func == "disable"):
@@ -242,7 +245,11 @@ def finish():
     
 def click(data):
   for _,element in enumerate(elements):
-    if(data.x in range(element.x,element.x + element.width) and data.y in range(element.y,element.y + element.height)):
+    calcx = int(element.x + element.xper[0])
+    calcy = int(element.y + element.yper[0])
+    calcw = int(element.width + element.widthper[0])
+    calch = int(element.height + element.heightper[0])
+    if(data.x in range(calcx,calcx + calcw) and data.y in range(calcy,calcy + calch)):
       element.onclickfunc(element)
 
 def config(data):
